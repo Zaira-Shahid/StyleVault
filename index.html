@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StyleVault — Fashion & Accessories</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #0a0a0a;
+  --white: #fafaf8;
+  --cream: #f4f0e8;
+  --gold: #c9a84c;
+  --gold-light: #e8d5a3;
+  --gray: #8a8a8a;
+  --light-gray: #e8e5e0;
+  --border: #d8d4cc;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Jost', sans-serif; background: var(--white); color: var(--black); overflow-x: hidden; }
+h1,h2,h3,h4 { font-family: 'Cormorant Garamond', serif; font-weight: 300; }
+
+/* ── ANNOUNCEMENT BAR ── */
+.announcement { background: var(--black); color: var(--gold-light); text-align: center; padding: 10px; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; }
+
+/* ── NAVBAR ── */
+.navbar { position: sticky; top: 0; z-index: 1000; background: var(--white); border-bottom: 1px solid var(--border); padding: 0 40px; display: flex; align-items: center; justify-content: space-between; height: 72px; }
+.nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 400; letter-spacing: 4px; text-transform: uppercase; color: var(--black); text-decoration: none; }
+.nav-logo span { color: var(--gold); }
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; text-decoration: none; color: var(--black); transition: color .2s; position: relative; }
+.nav-links a::after { content:''; position:absolute; bottom:-4px; left:0; width:0; height:1px; background:var(--gold); transition:width .3s; }
+.nav-links a:hover::after { width:100%; }
+.nav-links a:hover { color: var(--gold); }
+.nav-actions { display: flex; align-items: center; gap: 20px; }
+.nav-actions button { background: none; border: none; cursor: pointer; font-size: 18px; color: var(--black); transition: color .2s; position: relative; }
+.nav-actions button:hover { color: var(--gold); }
+.cart-count { position: absolute; top: -8px; right: -8px; background: var(--gold); color: var(--black); width: 18px; height: 18px; border-radius: 50%; font-size: 10px; font-family: 'Jost'; font-weight: 500; display: flex; align-items: center; justify-content: center; }
+#search-bar { display: none; position: absolute; top: 72px; left: 0; right: 0; background: var(--white); border-bottom: 1px solid var(--border); padding: 20px 40px; z-index: 999; }
+#search-bar input { width: 100%; border: none; border-bottom: 1px solid var(--black); padding: 10px 0; font-size: 18px; font-family: 'Cormorant Garamond', serif; background: none; outline: none; color: var(--black); }
+#search-bar input::placeholder { color: var(--gray); }
+
+/* ── HERO ── */
+.hero { position: relative; height: 90vh; min-height: 600px; overflow: hidden; display: flex; align-items: flex-end; }
+.hero-bg { position: absolute; inset: 0; background: linear-gradient(135deg, #1a1a1a 0%, #2d2010 40%, #1a1209 100%); }
+.hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.1) 60%, transparent 100%); }
+.hero-pattern { position: absolute; inset: 0; opacity: 0.04; background-image: repeating-linear-gradient(45deg, var(--gold) 0, var(--gold) 1px, transparent 0, transparent 50%); background-size: 20px 20px; }
+.hero-content { position: relative; z-index: 2; padding: 60px 80px; max-width: 700px; }
+.hero-tag { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+.hero-title { font-size: clamp(52px, 7vw, 96px); line-height: 0.95; color: var(--white); margin-bottom: 24px; font-style: italic; }
+.hero-title strong { font-style: normal; font-weight: 600; color: var(--gold); }
+.hero-sub { font-size: 14px; letter-spacing: 1px; color: rgba(255,255,255,0.7); margin-bottom: 40px; line-height: 1.8; max-width: 400px; }
+.btn-primary { display: inline-block; padding: 14px 40px; background: var(--gold); color: var(--black); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; text-decoration: none; font-family: 'Jost'; font-weight: 500; transition: all .3s; border: 1px solid var(--gold); cursor: pointer; }
+.btn-primary:hover { background: transparent; color: var(--gold); }
+.btn-outline { display: inline-block; padding: 14px 40px; background: transparent; color: var(--white); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; text-decoration: none; font-family: 'Jost'; font-weight: 500; transition: all .3s; border: 1px solid rgba(255,255,255,0.4); cursor: pointer; margin-left: 16px; }
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+.hero-scroll { position: absolute; bottom: 30px; right: 60px; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.hero-scroll span { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.5); writing-mode: vertical-rl; }
+.scroll-line { width: 1px; height: 60px; background: linear-gradient(to bottom, transparent, var(--gold)); }
+
+/* ── CATEGORY GRID ── */
+.section { padding: 80px 40px; }
+.section-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 40px; }
+.section-title { font-size: clamp(36px, 5vw, 60px); line-height: 1; color: var(--black); }
+.section-title em { color: var(--gold); }
+.section-link { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); text-decoration: none; border-bottom: 1px solid var(--gray); padding-bottom: 2px; transition: color .2s, border-color .2s; }
+.section-link:hover { color: var(--gold); border-color: var(--gold); }
+.cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
+.cat-card { position: relative; overflow: hidden; cursor: pointer; }
+.cat-card.tall { grid-row: span 2; }
+.cat-img { width: 100%; height: 340px; object-fit: cover; display: block; transition: transform .6s ease; filter: brightness(0.85); }
+.cat-card.tall .cat-img { height: 682px; }
+.cat-card:hover .cat-img { transform: scale(1.04); filter: brightness(0.95); }
+.cat-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%); }
+.cat-info { position: absolute; bottom: 20px; left: 20px; }
+.cat-name { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: var(--white); font-weight: 300; letter-spacing: 1px; }
+.cat-count { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-top: 4px; }
+.cat-btn { margin-top: 10px; padding: 6px 16px; background: rgba(201,168,76,0.85); color: var(--black); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; font-family: 'Jost'; border: none; cursor: pointer; display: none; transition: all .2s; }
+.cat-card:hover .cat-btn { display: block; }
+
+/* ── FILTER BAR ── */
+.filter-bar { background: var(--cream); padding: 16px 40px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.filter-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); margin-right: 8px; }
+.filter-btn { padding: 6px 16px; border: 1px solid var(--border); background: transparent; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; font-family: 'Jost'; transition: all .2s; color: var(--black); }
+.filter-btn:hover, .filter-btn.active { background: var(--black); color: var(--white); border-color: var(--black); }
+.sort-select { margin-left: auto; padding: 6px 12px; border: 1px solid var(--border); background: transparent; font-family: 'Jost'; font-size: 11px; letter-spacing: 1px; cursor: pointer; color: var(--black); }
+
+/* ── PRODUCTS GRID ── */
+.products-section { padding: 60px 40px; }
+.products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.product-card { cursor: pointer; }
+.product-img-wrap { position: relative; overflow: hidden; background: var(--cream); aspect-ratio: 3/4; }
+.product-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s ease; }
+.product-card:hover .product-img { transform: scale(1.05); }
+.product-badges { position: absolute; top: 12px; left: 12px; display: flex; flex-direction: column; gap: 6px; }
+.badge { padding: 4px 10px; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; font-family: 'Jost'; font-weight: 500; }
+.badge-new { background: var(--black); color: var(--white); }
+.badge-sale { background: #c0392b; color: var(--white); }
+.badge-gold { background: var(--gold); color: var(--black); }
+.product-actions { position: absolute; bottom: 0; left: 0; right: 0; padding: 12px; display: flex; gap: 8px; transform: translateY(100%); transition: transform .3s; }
+.product-card:hover .product-actions { transform: translateY(0); }
+.btn-cart { flex: 1; padding: 10px; background: var(--black); color: var(--white); border: none; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; font-family: 'Jost'; cursor: pointer; transition: background .2s; }
+.btn-cart:hover { background: var(--gold); color: var(--black); }
+.btn-wish { width: 40px; padding: 10px; background: var(--white); border: none; cursor: pointer; font-size: 16px; transition: all .2s; }
+.btn-wish:hover { background: var(--gold); }
+.product-info { padding: 14px 0; }
+.product-cat { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); margin-bottom: 6px; }
+.product-name { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 400; color: var(--black); margin-bottom: 8px; }
+.product-price { display: flex; gap: 10px; align-items: baseline; }
+.price-new { font-size: 15px; font-weight: 500; color: var(--black); }
+.price-old { font-size: 13px; color: var(--gray); text-decoration: line-through; }
+.price-discount { font-size: 11px; color: #c0392b; letter-spacing: 1px; }
+.color-dots { display: flex; gap: 6px; margin-top: 10px; }
+.color-dot { width: 14px; height: 14px; border-radius: 50%; border: 1px solid var(--border); cursor: pointer; transition: transform .2s; }
+.color-dot:hover { transform: scale(1.3); }
+
+/* ── MARQUEE ── */
+.marquee-section { background: var(--black); padding: 20px 0; overflow: hidden; white-space: nowrap; }
+.marquee-track { display: inline-flex; animation: marquee 20s linear infinite; }
+.marquee-item { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: var(--gold-light); padding: 0 40px; font-style: italic; }
+.marquee-sep { color: var(--gold); padding: 0 10px; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ── FEATURED BANNER ── */
+.featured-banner { display: grid; grid-template-columns: 1fr 1fr; min-height: 500px; }
+.banner-img-side { position: relative; overflow: hidden; }
+.banner-img { width: 100%; height: 100%; object-fit: cover; display: block; filter: brightness(0.8); transition: transform .6s; }
+.featured-banner:hover .banner-img { transform: scale(1.03); }
+.banner-text-side { background: var(--cream); display: flex; flex-direction: column; justify-content: center; padding: 80px 60px; }
+.banner-tag { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+.banner-title { font-size: clamp(40px, 5vw, 64px); line-height: 1; margin-bottom: 20px; color: var(--black); }
+.banner-desc { font-size: 14px; line-height: 2; color: var(--gray); margin-bottom: 40px; max-width: 360px; }
+
+/* ── TESTIMONIALS ── */
+.testimonials { padding: 80px 40px; background: var(--black); }
+.testimonials .section-title { color: var(--white); }
+.testimonials .section-title em { color: var(--gold); }
+.test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 40px; }
+.test-card { background: #141414; padding: 40px; border: 1px solid #1e1e1e; }
+.test-stars { color: var(--gold); font-size: 14px; margin-bottom: 16px; letter-spacing: 2px; }
+.test-text { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: rgba(255,255,255,0.8); line-height: 1.7; font-style: italic; margin-bottom: 20px; }
+.test-author { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+
+/* ── AI STYLIST ── */
+.ai-section { padding: 80px 40px; background: var(--cream); }
+.ai-container { max-width: 800px; margin: 0 auto; }
+.ai-header { text-align: center; margin-bottom: 40px; }
+.ai-header .section-title { font-size: clamp(36px, 5vw, 56px); }
+.ai-header p { font-size: 14px; color: var(--gray); margin-top: 12px; line-height: 1.8; }
+.ai-chat { background: var(--white); border: 1px solid var(--border); }
+.ai-chat-header { background: var(--black); padding: 16px 24px; display: flex; align-items: center; gap: 12px; }
+.ai-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); animation: pulse-dot 2s infinite; }
+@keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:.4} }
+.ai-chat-title { font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: var(--white); }
+.ai-messages { height: 320px; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+.ai-messages::-webkit-scrollbar { width: 3px; }
+.ai-messages::-webkit-scrollbar-thumb { background: var(--border); }
+.ai-msg { max-width: 85%; padding: 12px 16px; font-size: 14px; line-height: 1.6; }
+.ai-msg.bot { background: var(--cream); align-self: flex-start; border-left: 2px solid var(--gold); }
+.ai-msg.user { background: var(--black); color: var(--white); align-self: flex-end; }
+.ai-input-row { border-top: 1px solid var(--border); display: flex; }
+.ai-input-row input { flex: 1; padding: 16px 20px; border: none; outline: none; font-family: 'Jost'; font-size: 14px; background: transparent; color: var(--black); }
+.ai-input-row input::placeholder { color: var(--gray); }
+.ai-input-row button { padding: 16px 28px; background: var(--gold); border: none; cursor: pointer; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-family: 'Jost'; font-weight: 500; color: var(--black); transition: background .2s; }
+.ai-input-row button:hover { background: var(--black); color: var(--gold); }
+.ai-suggestions { padding: 12px 24px; display: flex; gap: 8px; flex-wrap: wrap; border-top: 1px solid var(--border); }
+.ai-sug { padding: 6px 14px; border: 1px solid var(--border); font-size: 11px; letter-spacing: 1px; cursor: pointer; font-family: 'Jost'; transition: all .2s; color: var(--black); background: transparent; }
+.ai-sug:hover { background: var(--black); color: var(--gold); border-color: var(--black); }
+
+/* ── NEWSLETTER ── */
+.newsletter { padding: 80px 40px; background: var(--black); text-align: center; }
+.newsletter h2 { font-size: clamp(40px, 5vw, 64px); color: var(--white); margin-bottom: 12px; }
+.newsletter h2 em { color: var(--gold); }
+.newsletter p { font-size: 14px; color: rgba(255,255,255,0.5); margin-bottom: 36px; letter-spacing: 1px; }
+.newsletter-form { display: flex; max-width: 480px; margin: 0 auto; }
+.newsletter-form input { flex: 1; padding: 16px 20px; border: 1px solid #2a2a2a; background: #111; color: var(--white); font-family: 'Jost'; font-size: 13px; outline: none; }
+.newsletter-form input::placeholder { color: #555; }
+.newsletter-form button { padding: 16px 28px; background: var(--gold); border: none; font-family: 'Jost'; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; color: var(--black); font-weight: 500; transition: all .2s; }
+.newsletter-form button:hover { background: var(--white); }
+
+/* ── FOOTER ── */
+footer { background: #0a0a0a; padding: 60px 40px 30px; border-top: 1px solid #1a1a1a; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+.footer-brand h3 { font-family: 'Cormorant Garamond', serif; font-size: 24px; letter-spacing: 4px; color: var(--white); margin-bottom: 12px; }
+.footer-brand h3 span { color: var(--gold); }
+.footer-brand p { font-size: 13px; line-height: 1.8; color: #555; max-width: 260px; }
+.footer-col h4 { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; font-family: 'Jost'; font-weight: 500; }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.footer-col ul a { font-size: 13px; color: #555; text-decoration: none; transition: color .2s; }
+.footer-col ul a:hover { color: var(--gold-light); }
+.footer-bottom { border-top: 1px solid #1a1a1a; padding-top: 24px; display: flex; justify-content: space-between; align-items: center; }
+.footer-bottom p { font-size: 12px; color: #333; letter-spacing: 1px; }
+.footer-socials { display: flex; gap: 16px; }
+.footer-socials a { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #444; text-decoration: none; transition: color .2s; }
+.footer-socials a:hover { color: var(--gold); }
+
+/* ── CART DRAWER ── */
+.cart-drawer { position: fixed; right: -420px; top: 0; bottom: 0; width: 420px; background: var(--white); z-index: 2000; transition: right .4s cubic-bezier(.4,0,.2,1); border-left: 1px solid var(--border); overflow-y: auto; }
+.cart-drawer.open { right: 0; }
+.cart-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1999; }
+.cart-overlay.show { display: block; }
+.cart-header { padding: 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; background: var(--white); z-index: 1; }
+.cart-header h3 { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 300; }
+.cart-close { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--black); transition: color .2s; }
+.cart-close:hover { color: var(--gold); }
+.cart-items { padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+.cart-item { display: flex; gap: 16px; padding-bottom: 20px; border-bottom: 1px solid var(--light-gray); }
+.cart-item-img { width: 80px; height: 100px; object-fit: cover; background: var(--cream); flex-shrink: 0; }
+.cart-item-info { flex: 1; }
+.cart-item-name { font-family: 'Cormorant Garamond', serif; font-size: 16px; margin-bottom: 4px; }
+.cart-item-cat { font-size: 11px; letter-spacing: 1px; color: var(--gray); text-transform: uppercase; margin-bottom: 8px; }
+.cart-item-price { font-size: 14px; font-weight: 500; color: var(--gold); }
+.cart-item-remove { background: none; border: none; font-size: 18px; cursor: pointer; color: var(--gray); margin-left: auto; align-self: flex-start; transition: color .2s; }
+.cart-item-remove:hover { color: #c0392b; }
+.cart-empty { text-align: center; padding: 60px 24px; color: var(--gray); }
+.cart-empty span { font-size: 48px; display: block; margin-bottom: 16px; }
+.cart-empty p { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-style: italic; }
+.cart-footer { padding: 24px; border-top: 1px solid var(--border); position: sticky; bottom: 0; background: var(--white); }
+.cart-total { display: flex; justify-content: space-between; margin-bottom: 20px; font-family: 'Cormorant Garamond', serif; font-size: 20px; }
+.cart-total span:last-child { color: var(--gold); }
+.btn-checkout { width: 100%; padding: 16px; background: var(--black); color: var(--white); border: none; font-family: 'Jost'; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; transition: background .2s; }
+.btn-checkout:hover { background: var(--gold); color: var(--black); }
+
+/* ── TOAST ── */
+.toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--black); color: var(--white); padding: 14px 28px; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; z-index: 3000; transition: transform .3s; border-left: 3px solid var(--gold); }
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ── PRODUCT COLOR SWATCHES ── */
+.swatch-black { background: #1a1a1a; }
+.swatch-white { background: #f5f5f0; border: 1px solid #ddd !important; }
+.swatch-gold { background: var(--gold); }
+.swatch-red { background: #8b1a1a; }
+.swatch-blue { background: #1a3a5c; }
+.swatch-green { background: #1a3a2a; }
+.swatch-pink { background: #d4a0a0; }
+.swatch-beige { background: #d4c4a0; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .products-grid { grid-template-columns: repeat(3, 1fr); }
+  .cat-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .navbar { padding: 0 20px; }
+  .nav-links { display: none; }
+  .hero-content { padding: 40px 24px; }
+  .section { padding: 50px 20px; }
+  .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .featured-banner { grid-template-columns: 1fr; }
+  .test-grid { grid-template-columns: 1fr; }
+  .cart-drawer { width: 100%; right: -100%; }
+}
+</style>
+</head>
+<body>
+
+<!-- ANNOUNCEMENT -->
+<div class="announcement">✦ Free shipping on orders over PKR 5,000 ✦ New Collection: Spring Summer 2026 ✦ Exclusive Members Get 20% Off ✦</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="#" class="nav-logo">Style<span>Vault</span></a>
+  <ul class="nav-links">
+    <li><a href="#" onclick="filterProducts('women-traditional')">Women</a></li>
+    <li><a href="#" onclick="filterProducts('men-traditional')">Men</a></li>
+    <li><a href="#" onclick="filterProducts('kids')">Kids</a></li>
+    <li><a href="#" onclick="filterProducts('jewellery')">Jewellery</a></li>
+    <li><a href="#" onclick="filterProducts('accessories')">Accessories</a></li>
+    <li><a href="#" onclick="filterProducts('shoes')">Shoes</a></li>
+    <li><a href="#ai-stylist" style="color:var(--gold)">AI Stylist</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button onclick="toggleSearch()" title="Search">🔍</button>
+    <button onclick="openCart()" title="Cart">
+      🛒
+      <span class="cart-count" id="cart-count">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- SEARCH BAR -->
+<div id="search-bar">
+  <input type="text" placeholder="Search for kurtas, sarees, watches..." id="search-input" oninput="searchProducts(this.value)">
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-content">
+    <p class="hero-tag">✦ Spring Summer Collection 2026</p>
+    <h1 class="hero-title">Where <strong>Heritage</strong><br>Meets <em>Luxury</em></h1>
+    <p class="hero-sub">Discover curated Pakistani traditional wear, contemporary fashion, jewellery, and accessories — all in one destination.</p>
+    <div>
+      <a href="#products" class="btn-primary" onclick="event.preventDefault(); document.getElementById('products').scrollIntoView()">Explore Collection</a>
+      <a href="#ai-stylist" class="btn-outline">AI Stylist ✦</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- CATEGORY GRID -->
+<section class="section" id="categories">
+  <div class="section-header">
+    <h2 class="section-title">Shop by<br><em>Category</em></h2>
+    <a href="#products" class="section-link">View All →</a>
+  </div>
+  <div class="cat-grid">
+    <div class="cat-card tall" onclick="filterProducts('women-traditional')">
+      <div style="width:100%;height:100%;background:linear-gradient(135deg,#2d1b0e,#4a2c1a);display:flex;align-items:center;justify-content:center;font-size:80px;">👗</div>
+      <div class="cat-overlay"></div>
+      <div class="cat-info">
+        <div class="cat-name">Women's Traditional</div>
+        <div class="cat-count">Shalwar Kameez · Sarees · Lehengas</div>
+        <button class="cat-btn">Shop Now</button>
+      </div>
+    </div>
+    <div class="cat-card" onclick="filterProducts('men-traditional')">
+      <div style="width:100%;height:340px;background:linear-gradient(135deg,#0e1a2d,#1a2c4a);display:flex;align-items:center;justify-content:center;font-size:60px;">👘</div>
+      <div class="cat-overlay"></div>
+      <div class="cat-info">
+        <div class="cat-name">Men's Traditional</div>
+        <div class="cat-count">Kurtas · Shalwars · Sherwanis</div>
+        <button class="cat-btn">Shop Now</button>
+      </div>
+    </div>
+    <div class="cat-card" onclick="filterProducts('women-western')">
+      <div style="width:100%;height:340px;background:linear-gradient(135deg,#1a0e2d,#2c1a4a);display:flex;align-items:center;justify-content:center;font-size:60px;">👚</div>
+      <div class="cat-overlay"></div>
+      <div class="cat-info">
+        <div class="cat-name">Western Wear</div>
+        <div class="cat-count">Tops · Jeans · Dresses · Co-ords</div>
+        <button class="cat-btn">Shop Now</button>
+      </div>
+    </div>
+    <div class="cat-card" onclick="filterProducts('kids')">
+      <div style="width:100%;height:340px;background:linear-gradient(135deg,#1a2d0e,#2c4a1a);display:flex;align-items:center;justify-content:center;font-size:60px;">🧸</div>
+      <div class="cat-overlay"></div>
+      <div class="cat-info">
+        <div class="cat-name">Baby & Kids</div>
+        <div class="cat-count">Boys · Girls · Newborn</div>
+        <button class="cat-btn">Shop Now</button>
+      </div>
+    </div>
+    <div class="cat-card" onclick="filterProducts('jewellery')">
+      <div style="width:100%;height:340px;background:linear-gradient(135deg,#2d2d0e,#4a4a1a);display:flex;align-items:center;justify-content:center;font-size:60px;">💎</div>
+      <div class="cat-overlay"></div>
+      <div class="cat-info">
+        <div class="cat-name">Jewellery</div>
+        <div class="cat-count">Necklaces · Earrings · Bangles</div>
+        <button class="cat-btn">Shop Now</button>
+      </div>
+    </div>
+    <div class="cat-card" onclick="filterProducts('accessories')">
+      <div style="width:100%;height:340px;background:linear-gradient(135deg,#2d0e0e,#4a1a1a);display:flex;align-items:center;justify-content:center;font-size:60px;">⌚</div>
+      <div class="cat-overlay"></div>
+      <div class="cat-info">
+        <div class="cat-name">Accessories</div>
+        <div class="cat-count">Watches · Wallets · Bracelets</div>
+        <button class="cat-btn">Shop Now</button>
+      </div>
+    </div>
+    <div class="cat-card" onclick="filterProducts('shoes')">
+      <div style="width:100%;height:340px;background:linear-gradient(135deg,#0e2d2d,#1a4a4a);display:flex;align-items:center;justify-content:center;font-size:60px;">👠</div>
+      <div class="cat-overlay"></div>
+      <div class="cat-info">
+        <div class="cat-name">Footwear</div>
+        <div class="cat-count">Women's · Men's · Kids'</div>
+        <button class="cat-btn">Shop Now</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track" id="marquee">
+    <span class="marquee-item">New Arrivals</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Premium Quality</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Pakistani Heritage</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Free Shipping</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Spring Summer 2026</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Exclusive Designs</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">New Arrivals</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Premium Quality</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Pakistani Heritage</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Free Shipping</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Spring Summer 2026</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Exclusive Designs</span><span class="marquee-sep">✦</span>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <span class="filter-label">Filter:</span>
+  <button class="filter-btn active" onclick="filterProducts('all', this)">All</button>
+  <button class="filter-btn" onclick="filterProducts('women-traditional', this)">Women Traditional</button>
+  <button class="filter-btn" onclick="filterProducts('men-traditional', this)">Men Traditional</button>
+  <button class="filter-btn" onclick="filterProducts('women-western', this)">Women Western</button>
+  <button class="filter-btn" onclick="filterProducts('men-western', this)">Men Western</button>
+  <button class="filter-btn" onclick="filterProducts('kids', this)">Kids</button>
+  <button class="filter-btn" onclick="filterProducts('jewellery', this)">Jewellery</button>
+  <button class="filter-btn" onclick="filterProducts('accessories', this)">Accessories</button>
+  <button class="filter-btn" onclick="filterProducts('shoes', this)">Shoes</button>
+  <select class="sort-select" onchange="sortProducts(this.value)">
+    <option value="">Sort By</option>
+    <option value="price-low">Price: Low to High</option>
+    <option value="price-high">Price: High to Low</option>
+    <option value="new">Newest First</option>
+    <option value="popular">Most Popular</option>
+  </select>
+</div>
+
+<!-- PRODUCTS -->
+<section class="products-section" id="products">
+  <div class="products-grid" id="products-grid"></div>
+</section>
+
+<!-- FEATURED BANNER -->
+<section class="featured-banner">
+  <div class="banner-img-side">
+    <div style="width:100%;height:100%;min-height:500px;background:linear-gradient(135deg,#1a0e0e,#3d1a0a);display:flex;align-items:center;justify-content:center;font-size:120px;">🥻</div>
+  </div>
+  <div class="banner-text-side">
+    <p class="banner-tag">✦ Exclusive Collection</p>
+    <h2 class="banner-title">The Bridal<br>Edit 2026</h2>
+    <p class="banner-desc">Handcrafted lehengas, embroidered dupattas, and exquisite jadau jewellery — curated for your most precious moments.</p>
+    <button class="btn-primary" onclick="filterProducts('women-traditional')">Explore Bridal →</button>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="section-header">
+    <h2 class="section-title" style="color:var(--white)">What Our <em>Customers</em> Say</h2>
+  </div>
+  <div class="test-grid">
+    <div class="test-card">
+      <div class="test-stars">★★★★★</div>
+      <p class="test-text">"The embroidery on my shalwar kameez is absolutely breathtaking. StyleVault has restored my faith in online shopping."</p>
+      <span class="test-author">— Amna K., Lahore</span>
+    </div>
+    <div class="test-card">
+      <div class="test-stars">★★★★★</div>
+      <p class="test-text">"The AI Stylist recommended a perfect outfit combination for my brother's wedding. Saved so much time!"</p>
+      <span class="test-author">— Farrukh M., Karachi</span>
+    </div>
+    <div class="test-card">
+      <div class="test-stars">★★★★★</div>
+      <p class="test-text">"The kids' section is incredible — quality rivals international brands at half the price. My daughter won't wear anything else."</p>
+      <span class="test-author">— Sana R., Islamabad</span>
+    </div>
+  </div>
+</section>
+
+<!-- AI STYLIST -->
+<section class="ai-section" id="ai-stylist">
+  <div class="ai-container">
+    <div class="ai-header">
+      <h2 class="section-title">Your Personal<br><em>AI Stylist</em></h2>
+      <p>Tell me your style, occasion, or mood — I'll curate the perfect outfit for you from our collection.</p>
+    </div>
+    <div class="ai-chat">
+      <div class="ai-chat-header">
+        <div class="ai-dot"></div>
+        <span class="ai-chat-title">StyleVault AI Stylist — Powered by Llama</span>
+      </div>
+      <div class="ai-messages" id="ai-messages">
+        <div class="ai-msg bot">Assalam-o-Alaikum! I'm your personal StyleVault stylist ✦ Tell me about the occasion, your style preferences, or what you're looking for — and I'll curate the perfect look for you!</div>
+      </div>
+      <div class="ai-suggestions">
+        <button class="ai-sug" onclick="aiSuggest(this)">Wedding outfit for bride</button>
+        <button class="ai-sug" onclick="aiSuggest(this)">Casual western look</button>
+        <button class="ai-sug" onclick="aiSuggest(this)">Men's Eid outfit</button>
+        <button class="ai-sug" onclick="aiSuggest(this)">Kids birthday dress</button>
+        <button class="ai-sug" onclick="aiSuggest(this)">Office wear for women</button>
+      </div>
+      <div class="ai-input-row">
+        <input type="text" id="ai-input" placeholder="Describe your style or occasion..." onkeydown="if(event.key==='Enter') sendAI()">
+        <button onclick="sendAI()">Ask Stylist ✦</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter">
+  <h2>Join the <em>Inner Circle</em></h2>
+  <p>Exclusive access to new collections, private sales, and style tips</p>
+  <div class="newsletter-form">
+    <input type="email" placeholder="Your email address">
+    <button>Subscribe ✦</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <h3>Style<span>Vault</span></h3>
+      <p>Pakistan's premier destination for traditional and contemporary fashion. Heritage craftsmanship meets modern luxury.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="#" onclick="filterProducts('women-traditional')">Women's Traditional</a></li>
+        <li><a href="#" onclick="filterProducts('men-traditional')">Men's Traditional</a></li>
+        <li><a href="#" onclick="filterProducts('women-western')">Western Wear</a></li>
+        <li><a href="#" onclick="filterProducts('kids')">Baby & Kids</a></li>
+        <li><a href="#" onclick="filterProducts('jewellery')">Jewellery</a></li>
+        <li><a href="#" onclick="filterProducts('shoes')">Footwear</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Help</h4>
+      <ul>
+        <li><a href="#">Size Guide</a></li>
+        <li><a href="#">Returns & Exchange</a></li>
+        <li><a href="#">Shipping Info</a></li>
+        <li><a href="#">Track Order</a></li>
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="#">FAQs</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>About</h4>
+      <ul>
+        <li><a href="#">Our Story</a></li>
+        <li><a href="#">Sustainability</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 StyleVault. All rights reserved.</p>
+    <div class="footer-socials">
+      <a href="#">Instagram</a>
+      <a href="#">Facebook</a>
+      <a href="#">Pinterest</a>
+      <a href="#">TikTok</a>
+    </div>
+  </div>
+</footer>
+
+<!-- CART DRAWER -->
+<div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
+<div class="cart-drawer" id="cart-drawer">
+  <div class="cart-header">
+    <h3>Shopping Bag (<span id="cart-item-count">0</span>)</h3>
+    <button class="cart-close" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cart-items-list">
+    <div class="cart-empty">
+      <span>🛍</span>
+      <p>Your bag is empty</p>
+    </div>
+  </div>
+  <div class="cart-footer" id="cart-footer" style="display:none">
+    <div class="cart-total">
+      <span>Total</span>
+      <span id="cart-total">PKR 0</span>
+    </div>
+    <button class="btn-checkout" onclick="alert('Checkout coming soon! This is a demo.')">Proceed to Checkout →</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+const GROQ_KEY = "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";
+
+const products = [
+  // Women Traditional
+  { id:1, name:"Embroidered Lawn Suit", cat:"women-traditional", catLabel:"Women · Traditional", price:4500, oldPrice:6000, badge:"Sale", emoji:"👗", colors:["#1a1a1a","#8b1a1a","#1a3a2a"], isNew:false },
+  { id:2, name:"Bridal Lehenga Choli", cat:"women-traditional", catLabel:"Women · Bridal", price:45000, oldPrice:null, badge:"New", emoji:"🥻", colors:["#8b1a1a","#c9a84c","#1a1a1a"], isNew:true },
+  { id:3, name:"Silk Shalwar Kameez", cat:"women-traditional", catLabel:"Women · Traditional", price:8500, oldPrice:10000, badge:null, emoji:"👘", colors:["#d4a0a0","#1a3a5c","#1a1a1a"], isNew:false },
+  { id:4, name:"Hand-Block Printed Dupatta", cat:"women-traditional", catLabel:"Women · Accessories", price:2200, oldPrice:null, badge:"New", emoji:"🧣", colors:["#8b1a1a","#1a3a2a","#c9a84c"], isNew:true },
+  // Men Traditional
+  { id:5, name:"Premium Cotton Kurta", cat:"men-traditional", catLabel:"Men · Traditional", price:3200, oldPrice:4000, badge:"Sale", emoji:"👔", colors:["#f5f5f0","#1a1a1a","#1a3a5c"], isNew:false },
+  { id:6, name:"Sherwani for Groom", cat:"men-traditional", catLabel:"Men · Wedding", price:38000, oldPrice:null, badge:"Premium", emoji:"🤵", colors:["#1a1a1a","#8b1a1a","#c9a84c"], isNew:true },
+  { id:7, name:"Embroidered Shalwar Suit", cat:"men-traditional", catLabel:"Men · Traditional", price:5500, oldPrice:7000, badge:null, emoji:"🧥", colors:["#1a3a5c","#1a1a1a","#f5f5f0"], isNew:false },
+  { id:8, name:"Waistcoat Kurta Set", cat:"men-traditional", catLabel:"Men · Eid Special", price:6800, oldPrice:null, badge:"New", emoji:"🎭", colors:["#c9a84c","#1a1a1a","#8b1a1a"], isNew:true },
+  // Women Western
+  { id:9, name:"Linen Co-ord Set", cat:"women-western", catLabel:"Women · Western", price:4200, oldPrice:5500, badge:"Sale", emoji:"👚", colors:["#d4c4a0","#1a1a1a","#1a3a5c"], isNew:false },
+  { id:10, name:"Floral Midi Dress", cat:"women-western", catLabel:"Women · Western", price:3800, oldPrice:null, badge:"New", emoji:"👗", colors:["#d4a0a0","#1a3a2a","#1a1a1a"], isNew:true },
+  { id:11, name:"Wide-Leg Trousers", cat:"women-western", catLabel:"Women · Western", price:2900, oldPrice:3500, badge:null, emoji:"👖", colors:["#1a1a1a","#d4c4a0","#8b1a1a"], isNew:false },
+  // Men Western
+  { id:12, name:"Slim Fit Chinos", cat:"men-western", catLabel:"Men · Western", price:3400, oldPrice:null, badge:"New", emoji:"👖", colors:["#d4c4a0","#1a3a5c","#1a1a1a"], isNew:true },
+  { id:13, name:"Oxford Button-Down Shirt", cat:"men-western", catLabel:"Men · Western", price:2800, oldPrice:3500, badge:"Sale", emoji:"👕", colors:["#f5f5f0","#1a3a5c","#1a1a1a"], isNew:false },
+  // Kids
+  { id:14, name:"Girls Party Frock", cat:"kids", catLabel:"Kids · Girls", price:2200, oldPrice:2800, badge:"Sale", emoji:"👧", colors:["#d4a0a0","#1a3a5c","#c9a84c"], isNew:false },
+  { id:15, name:"Boys Kurta Pajama Set", cat:"kids", catLabel:"Kids · Boys", price:1800, oldPrice:null, badge:"New", emoji:"👦", colors:["#f5f5f0","#1a1a1a","#1a3a5c"], isNew:true },
+  { id:16, name:"Newborn Gift Set", cat:"kids", catLabel:"Kids · Newborn", price:3500, oldPrice:null, badge:"New", emoji:"🍼", colors:["#d4a0a0","#f5f5f0","#d4c4a0"], isNew:true },
+  // Jewellery
+  { id:17, name:"Kundan Necklace Set", cat:"jewellery", catLabel:"Jewellery · Bridal", price:12000, oldPrice:15000, badge:"Sale", emoji:"📿", colors:["#c9a84c","#8b1a1a"], isNew:false },
+  { id:18, name:"Pearl Drop Earrings", cat:"jewellery", catLabel:"Jewellery · Classic", price:3500, oldPrice:null, badge:"New", emoji:"💎", colors:["#f5f5f0","#c9a84c"], isNew:true },
+  { id:19, name:"Polki Bangles Set", cat:"jewellery", catLabel:"Jewellery · Traditional", price:8500, oldPrice:11000, badge:"Sale", emoji:"✨", colors:["#c9a84c","#8b1a1a"], isNew:false },
+  { id:20, name:"Maang Tikka & Earrings", cat:"jewellery", catLabel:"Jewellery · Wedding", price:6200, oldPrice:null, badge:"Premium", emoji:"👑", colors:["#c9a84c","#1a1a1a"], isNew:true },
+  // Accessories
+  { id:21, name:"Classic Chronograph Watch", cat:"accessories", catLabel:"Men · Watches", price:18500, oldPrice:22000, badge:"Sale", emoji:"⌚", colors:["#1a1a1a","#c9a84c","#8b1a1a"], isNew:false },
+  { id:22, name:"Leather Bifold Wallet", cat:"accessories", catLabel:"Men · Wallets", price:4200, oldPrice:null, badge:"New", emoji:"👛", colors:["#1a1a1a","#8b1a1a","#d4c4a0"], isNew:true },
+  { id:23, name:"Sterling Silver Bracelet", cat:"accessories", catLabel:"Men · Bracelets", price:5500, oldPrice:6500, badge:null, emoji:"📿", colors:["#f5f5f0","#c9a84c","#1a1a1a"], isNew:false },
+  { id:24, name:"Luxury Dress Watch", cat:"accessories", catLabel:"Men · Watches", price:32000, oldPrice:null, badge:"Premium", emoji:"🕐", colors:["#c9a84c","#1a1a1a"], isNew:true },
+  // Shoes
+  { id:25, name:"Khussa Embroidered Heels", cat:"shoes", catLabel:"Women · Shoes", price:4800, oldPrice:6000, badge:"Sale", emoji:"👠", colors:["#8b1a1a","#c9a84c","#1a1a1a"], isNew:false },
+  { id:26, name:"Oxford Derby Shoes", cat:"shoes", catLabel:"Men · Shoes", price:8500, oldPrice:null, badge:"New", emoji:"👞", colors:["#1a1a1a","#8b1a1a","#d4c4a0"], isNew:true },
+  { id:27, name:"Kids Fancy Sandals", cat:"shoes", catLabel:"Kids · Shoes", price:1800, oldPrice:2200, badge:"Sale", emoji:"👡", colors:["#d4a0a0","#c9a84c","#1a1a1a"], isNew:false },
+  { id:28, name:"Block Heel Mules", cat:"shoes", catLabel:"Women · Shoes", price:5500, oldPrice:null, badge:"New", emoji:"👡", colors:["#d4c4a0","#1a1a1a","#8b1a1a"], isNew:true },
+];
+
+let cart = JSON.parse(localStorage.getItem('sv-cart') || '[]');
+let currentFilter = 'all';
+let aiHistory = [];
+
+function renderProducts(list) {
+  const grid = document.getElementById('products-grid');
+  if (list.length === 0) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px;font-family:Cormorant Garamond,serif;font-size:28px;font-style:italic;color:#8a8a8a">No products found</div>';
+    return;
+  }
+  grid.innerHTML = list.map(p => {
+    const badgeHtml = p.badge ? `<span class="badge badge-${p.badge==='Sale'?'sale':p.badge==='New'?'new':'gold'}">${p.badge}</span>` : '';
+    const oldPriceHtml = p.oldPrice ? `<span class="price-old">PKR ${p.oldPrice.toLocaleString()}</span>` : '';
+    const discHtml = p.oldPrice ? `<span class="price-discount">${Math.round((1-p.price/p.oldPrice)*100)}% off</span>` : '';
+    const dotsHtml = p.colors.map(c => `<div class="color-dot" style="background:${c}"></div>`).join('');
+    return `<div class="product-card">
+      <div class="product-img-wrap">
+        <div style="width:100%;height:100%;background:linear-gradient(135deg,#f0ebe0,#e8e0d0);display:flex;align-items:center;justify-content:center;font-size:80px;">${p.emoji}</div>
+        <div class="product-badges">${badgeHtml}</div>
+        <div class="product-actions">
+          <button class="btn-cart" onclick="addToCart(${p.id})">Add to Bag</button>
+          <button class="btn-wish" onclick="showToast('Added to wishlist ♡')">♡</button>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-cat">${p.catLabel}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-price">
+          <span class="price-new">PKR ${p.price.toLocaleString()}</span>
+          ${oldPriceHtml}${discHtml}
+        </div>
+        <div class="color-dots">${dotsHtml}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterProducts(cat, btn) {
+  currentFilter = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const filtered = cat === 'all' ? products : products.filter(p => p.cat === cat);
+  renderProducts(filtered);
+  document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+}
+
+function sortProducts(val) {
+  let list = currentFilter === 'all' ? [...products] : products.filter(p => p.cat === currentFilter);
+  if (val === 'price-low') list.sort((a,b) => a.price - b.price);
+  else if (val === 'price-high') list.sort((a,b) => b.price - a.price);
+  else if (val === 'new') list = list.filter(p => p.isNew).concat(list.filter(p => !p.isNew));
+  renderProducts(list);
+}
+
+function searchProducts(q) {
+  if (!q.trim()) { renderProducts(products); return; }
+  const r = products.filter(p => p.name.toLowerCase().includes(q.toLowerCase()) || p.catLabel.toLowerCase().includes(q.toLowerCase()));
+  renderProducts(r);
+}
+
+function toggleSearch() {
+  const sb = document.getElementById('search-bar');
+  sb.style.display = sb.style.display === 'none' ? 'block' : 'none';
+  if (sb.style.display === 'block') document.getElementById('search-input').focus();
+}
+
+// CART
+function addToCart(id) {
+  const p = products.find(x => x.id === id);
+  const ex = cart.find(x => x.id === id);
+  if (ex) ex.qty = (ex.qty || 1) + 1;
+  else cart.push({ ...p, qty: 1 });
+  saveCart();
+  updateCartUI();
+  showToast(`${p.name} added to bag ✦`);
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(x => x.id !== id);
+  saveCart();
+  updateCartUI();
+  renderCartItems();
+}
+
+function saveCart() {
+  localStorage.setItem('sv-cart', JSON.stringify(cart));
+}
+
+function updateCartUI() {
+  const total = cart.reduce((s, x) => s + x.qty, 0);
+  document.getElementById('cart-count').textContent = total;
+  document.getElementById('cart-item-count').textContent = total;
+  const t = cart.reduce((s, x) => s + x.price * x.qty, 0);
+  document.getElementById('cart-total').textContent = 'PKR ' + t.toLocaleString();
+  document.getElementById('cart-footer').style.display = cart.length ? 'block' : 'none';
+}
+
+function renderCartItems() {
+  const el = document.getElementById('cart-items-list');
+  if (cart.length === 0) {
+    el.innerHTML = '<div class="cart-empty"><span>🛍</span><p>Your bag is empty</p></div>';
+    return;
+  }
+  el.innerHTML = cart.map(p => `<div class="cart-item">
+    <div class="cart-item-img" style="display:flex;align-items:center;justify-content:center;font-size:36px;background:#f0ebe0;">${p.emoji}</div>
+    <div class="cart-item-info">
+      <div class="cart-item-name">${p.name}</div>
+      <div class="cart-item-cat">${p.catLabel} · Qty: ${p.qty}</div>
+      <div class="cart-item-price">PKR ${(p.price * p.qty).toLocaleString()}</div>
+    </div>
+    <button class="cart-item-remove" onclick="removeFromCart(${p.id})">✕</button>
+  </div>`).join('');
+}
+
+function openCart() {
+  renderCartItems();
+  updateCartUI();
+  document.getElementById('cart-drawer').classList.add('open');
+  document.getElementById('cart-overlay').classList.add('show');
+}
+
+function closeCart() {
+  document.getElementById('cart-drawer').classList.remove('open');
+  document.getElementById('cart-overlay').classList.remove('show');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// AI STYLIST
+async function sendAI() {
+  const input = document.getElementById('ai-input');
+  const msg = input.value.trim();
+  if (!msg) return;
+  addAIMsg('user', msg);
+  input.value = '';
+  aiHistory.push({ role: 'user', content: msg });
+  addAIMsg('bot', '...');
+  try {
+    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + GROQ_KEY },
+      body: JSON.stringify({
+        model: 'llama-3.3-70b-versatile',
+        messages: [
+          { role: 'system', content: `You are StyleVault's luxury AI fashion stylist. StyleVault is a Pakistani premium fashion ecommerce store selling: Women's Traditional (Shalwar Kameez, Lehengas, Sarees), Men's Traditional (Kurtas, Sherwanis), Western Wear, Baby & Kids clothes, Traditional Jewellery (Kundan, Polki, Pearl), Men's Accessories (Watches, Wallets, Bracelets), and Shoes. Give personalized outfit recommendations, styling tips, and suggest specific product categories from StyleVault. Be elegant, warm, and knowledgeable about Pakistani fashion and culture. Keep responses concise and stylish.` },
+          ...aiHistory
+        ],
+        max_tokens: 400,
+        temperature: 0.8
+      })
+    });
+    const data = await res.json();
+    const reply = data.choices[0].message.content;
+    document.querySelector('.ai-msg.bot:last-child').textContent = '';
+    document.querySelector('.ai-msg.bot:last-child').textContent = reply;
+    aiHistory.push({ role: 'assistant', content: reply });
+  } catch(e) {
+    document.querySelector('.ai-msg.bot:last-child').textContent = 'Please add your Groq API key to enable the AI Stylist feature.';
+  }
+  const msgs = document.getElementById('ai-messages');
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function addAIMsg(role, text) {
+  const msgs = document.getElementById('ai-messages');
+  const div = document.createElement('div');
+  div.className = 'ai-msg ' + role;
+  div.textContent = text;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function aiSuggest(btn) {
+  document.getElementById('ai-input').value = btn.textContent;
+  sendAI();
+}
+
+// INIT
+renderProducts(products);
+updateCartUI();
+</script>
+</body>
+</html>
